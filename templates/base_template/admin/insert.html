@@ -1,0 +1,23 @@
+<!-- IF S_LAYOUT_WARNING -->
+<div class="errorbox roundbox">
+	<div class="icon_false">{L_epgpimport_layoutwarning}</div>
+</div>
+<br />
+<!-- ENDIF -->
+<form method="post" action="{ACTION}" name="post">
+	<fieldset class="settings smallsettings">
+		<legend>{L_epgpimport_import}</legend>
+		<dl>
+			<dt><label>{L_event}</label></dt>
+			<dd>{EVENTS}</dd>
+		</dl>
+		<dl>
+			<dt><label>{L_itempool}</label></dt>
+			<dd>{ITEMPOOLS}</dd>
+		</dl>
+		
+		<textarea name="log" rows="20" id="log" style="width: 99%" class="post"></textarea>
+	</fieldset>
+	<input type="submit" name="insert" value="{L_submit}" class="mainoption bi_ok" /></td>
+	{CSRF_TOKEN}
+</form>
