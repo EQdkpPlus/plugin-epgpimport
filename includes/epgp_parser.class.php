@@ -29,10 +29,19 @@ if(!class_exists('epgp_parser')) {
 		}
 		
 		public function parse($strLog, $intEventID, $intItempoolID){
-			$strTime = $this->time->date("Y-m-d H:i");
-			$intTime = $this->time->time;
 			
 			if ($objLog = json_decode($strLog)){
+				$strTime = $this->time->date("Y-m-d H:i", intval($objLog->timestamp));
+				$intTime = intval($objLog->timestamp);
+				$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTime, 9999999999));
+				foreach($arrRaidList as $raidid){
+					$strNote = $this->pdh->get('raid', 'note', array($raidid));
+					if (strpos($strNote, "EPGP-Snapshot") ===0){
+						return false;
+					}
+				}
+				
+			
 				//Build itemList
 				$blnRaidItemList = false;
 				$arrItemMembernameList = array();
@@ -143,7 +152,8 @@ if(!class_exists('epgp_parser')) {
 					);
 
 					$arrMember[] = $intMemberID;
-				}				
+				}
+				//d($arrAdjustment);
 
 				//Create raid with value 0
 				$raid_upd = $this->pdh->put('raid', 'add_raid', array($intTime, $arrMember, $intEventID, 'EPGP-Snapshot '.$strTime, 0));

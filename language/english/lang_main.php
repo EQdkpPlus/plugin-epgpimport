@@ -21,7 +21,7 @@
 		'epgpimport_short_desc' => 'EPGP-Importer',
 		'epgpimport_long_desc' => 'Import your EPGP-Logs from the ingame-Addon',
 		'epgpimport_error_nolog' => 'No EPGP-Log given',
-		'epgpimport_error_wrongformat' => 'EPGP-Log could not be imported, maybe it is damaged or has a wrong format.',
+		'epgpimport_error_wrongformat' => 'EPGP-Log could not be imported, maybe it is damaged, has a wrong format or a newer one has already been imported.',
 		'epgpimport_layoutwarning' => 'You don\'t use an EPGP-Layout. This can cause uncorrectly imports. Please go to the <a href="'.registry::get_const('root_path').'admin/manage_pagelayouts.php'.registry::get_const('SID').'">Pagelayout-Management</a> and select an EPGP-Layout.',
 		'epgpimport_success' => 'EPGP-Log successfully imported.',
 	);
