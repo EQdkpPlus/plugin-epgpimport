@@ -27,7 +27,7 @@ class epgpimport extends plugin_generic {
 	}
 
 	public $vstatus = 'Alpha';
-	public $version = '0.0.1';
+	public $version = '0.1.0';
 	
 	public function __construct() {
 		parent::__construct();
