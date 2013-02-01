@@ -24,6 +24,7 @@
 		'epgpimport_error_wrongformat' => 'EPGP-Log could not be imported, maybe it is damaged, has a wrong format or a newer one has already been imported.',
 		'epgpimport_layoutwarning' => 'You don\'t use an EPGP-Layout. This can cause uncorrectly imports. Please go to the <a href="'.registry::get_const('root_path').'admin/manage_pagelayouts.php'.registry::get_const('SID').'">Pagelayout-Management</a> and select an EPGP-Layout.',
 		'epgpimport_success' => 'EPGP-Log successfully imported.',
+		'epgpimport_error_more_mdkp4event' => 'EPGP-Log could not be imported, because the selected event belongs to more than one MultiDKP-Pool.',
 	);
 	
 

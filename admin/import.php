@@ -43,6 +43,14 @@ class epgp_import extends page_generic {
 		if ($this->in->get('log', '') != ''){
 			include_once("../includes/epgp_parser.class.php");
 			$parser = register('epgp_parser');
+			
+			//Check if event belongs to more than one MultiDKP-Pool
+			$arrMDKPPools = $this->pdh->get('event', 'multidkppools', array($this->in->get('event', 0)));
+			if (count($arrMDKPPools) > 1){
+				$this->core->message($this->user->lang('epgpimport_error_more_mdkp4event'), $this->user->lang('error'), 'red');
+				$this->display();
+				return;
+			}
 
 			$mixedResult = $parser->parse($this->in->get('log', ''), $this->in->get('event', 0),  $this->in->get('itempool', 0));
 			if (!$mixedResult){
