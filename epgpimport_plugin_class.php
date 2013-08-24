@@ -27,7 +27,7 @@ class epgpimport extends plugin_generic {
 	}
 
 	public $vstatus = 'Alpha';
-	public $version = '0.1.1';
+	public $version = '0.2.0';
 	
 	public function __construct() {
 		parent::__construct();
@@ -54,21 +54,10 @@ class epgpimport extends plugin_generic {
 		);
 
 		//permissions
-		//$this->add_permission('a', 'config', 'N', $this->user->lang('configuration'), array(2,3));
 		$this->add_permission('a', 'import', 'N', $this->user->lang('epgpimport_import'), array(2,3));
-		
-		//pdh-modules
-		/*
-		$this->add_pdh_read_module('rli_zone');
-		$this->add_pdh_read_module('rli_boss');
-		$this->add_pdh_read_module('rli_item');
-		$this->add_pdh_write_module('rli_zone');
-		$this->add_pdh_write_module('rli_boss');
-		$this->add_pdh_write_module('rli_item');
-		*/
 
 		//menu
-		$this->add_menu('admin_menu', $this->gen_admin_menu());
+		$this->add_menu('admin', $this->gen_admin_menu());
 	}
 	
 	
@@ -77,20 +66,7 @@ class epgpimport extends plugin_generic {
 		return array(array(
 			'icon' => './../../plugins/epgpimport/images/epgp.png',
 			'name' => $this->user->lang('epgpimport'),
-			/*
 			1 => array(
-				'link' => 'plugins/' . $this->code . '/admin/settings.php'.$this->SID,
-				'text' => $this->user->lang('settings'),
-				'check' => 'a_epgpimport_config',
-				'icon' => 'manage_settings.png'),
-
-			2 => array(
-				'link' => 'plugins/' . $this->code . '/admin/bz.php'.$this->SID,
-				'text' => $this->user->lang('epgpimport_bz'),
-				'check' => 'a_epgpimport_bz',
-				'icon' => './../../plugins/epgpimport/images/report_edit.png'),
-			*/
-			3 => array(
 				'link' => 'plugins/' . $this->code . '/admin/import.php'.$this->SID,
 				'text' => $this->user->lang('epgpimport_import'),
 				'check' => 'a_epgpimport_import',
@@ -99,5 +75,4 @@ class epgpimport extends plugin_generic {
 	}
 
 }
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_epgpimport', epgpimport::__shortcuts());
 ?>
