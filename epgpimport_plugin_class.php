@@ -49,7 +49,7 @@ class epgpimport extends plugin_generic {
 			'long_description'	=> $this->user->lang('epgpimport_long_desc'),
 			'homepage'			=> EQDKP_PROJECT_URL,
 			'manuallink'		=> 'http://eqdkp-plus.eu/wiki/',
-			'icon'				=> $this->root_path.'plugins/epgpimport/images/epgp.png',
+			'icon'				=> 'icon-fire',
 			)
 		);
 
@@ -64,13 +64,13 @@ class epgpimport extends plugin_generic {
 	
 	public function gen_admin_menu() {
 		return array(array(
-			'icon' => './../../plugins/epgpimport/images/epgp.png',
+			'icon' => 'icon-fire',
 			'name' => $this->user->lang('epgpimport'),
 			1 => array(
 				'link' => 'plugins/' . $this->code . '/admin/import.php'.$this->SID,
 				'text' => $this->user->lang('epgpimport_import'),
 				'check' => 'a_epgpimport_import',
-				'icon' => './../../plugins/epgpimport/images/report_add.png')
+				'icon' => 'icon-upload-alt')
 		));
 	}
 
