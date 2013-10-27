@@ -1,7 +1,7 @@
 <!-- IF S_NORMAL_HEADER -->
 <div class="breadcrumb-container">
 	<ul class="breamcrumb">
-		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="icon-home"></i></a></li>
+		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="fa fa-home"></i></a></li>
 		<li><a href="{EQDKP_ROOT_PATH}admin/{SID}">{L_menu_admin_panel}</a>
 		<li class="current"><a>{L_epgpimport}: {L_epgpimport_import}</a></li>
 	</ul>
@@ -14,7 +14,7 @@
 
 <!-- IF S_LAYOUT_WARNING -->
 <div class="infobox infobox-large infobox-red clearfix">
-	<i class="icon-warning-sign icon-4x pull-left"></i> {L_epgpimport_layoutwarning}
+	<i class="fa fa-exclamation-triangle fa-4x pull-left"></i> {L_epgpimport_layoutwarning}
 </div>
 <br />
 <!-- ENDIF -->
@@ -32,6 +32,6 @@
 		
 		<textarea name="log" rows="20" id="log" style="width: 99%" class="post"></textarea>
 	</fieldset>
-	<button type="submit" name="insert"><i class="icon-ok"></i>{L_submit}</button>
+	<button type="submit" name="insert"><i class="fa fa-check"></i>{L_submit}</button>
 	{CSRF_TOKEN}
 </form>
