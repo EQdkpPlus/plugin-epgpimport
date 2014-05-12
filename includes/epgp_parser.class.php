@@ -105,7 +105,7 @@ if(!class_exists('epgp_parser')) {
 				$arrMember = array();
 				$arrAdjustment = array();
 				foreach($objLog->roster as $objRosterItem){
-					$strMembername = $objRosterItem[0];
+					$strMembername = sanitize($objRosterItem[0]);
 					$floatEP = (float)$objRosterItem[1];
 					$floatGP = (float)$objRosterItem[2];
 										
