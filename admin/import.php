@@ -52,7 +52,7 @@ class epgp_import extends page_generic {
 				return;
 			}
 
-			$mixedResult = $parser->parse($this->in->get('log', ''), $this->in->get('event', 0),  $this->in->get('itempool', 0));
+			$mixedResult = $parser->parse(unsanitize($this->in->get('log', '')), $this->in->get('event', 0),  $this->in->get('itempool', 0));
 			if (!$mixedResult){
 				//error
 				$this->core->message($this->user->lang('epgpimport_error_wrongformat'), $this->user->lang('error'), 'red');
