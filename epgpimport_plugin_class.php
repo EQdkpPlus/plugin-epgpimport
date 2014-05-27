@@ -21,10 +21,6 @@ if ( !defined('EQDKP_INC') ) {
 }
 
 class epgpimport extends plugin_generic {
-	public static function __shortcuts() {
-		$shortcuts = array('core', 'user', 'db', 'pdh', 'config');
-		return array_merge(parent::$shortcuts, $shortcuts);
-	}
 
 	public $vstatus = 'Alpha';
 	public $version = '0.2.0';

@@ -23,11 +23,6 @@ $eqdkp_root_path = './../../../';
 include_once($eqdkp_root_path.'common.php');
 
 class epgp_import extends page_generic {
-	public static function __shortcuts() {
-		$shortcuts = array('user', 'in', 'tpl', 'core', 'pm', 'config', 'jquery', 'html'
-		);
-		return array_merge(parent::$shortcuts, $shortcuts);
-	}
 
 	public function __construct() {
 		$this->user->check_auth('a_epgpimport_import');
@@ -103,6 +98,5 @@ class epgp_import extends page_generic {
 		);
 	}
 }
-if(version_compare(PHP_VERSION, '5.3.0', '<')) registry::add_const('short_epgp_import', epgp_import::__shortcuts());
 registry::register('epgp_import');
 ?>

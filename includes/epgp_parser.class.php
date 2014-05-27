@@ -23,8 +23,6 @@ if(!defined('EQDKP_INC')) {
 
 if(!class_exists('epgp_parser')) {
 	class epgp_parser extends gen_class {
-		public static $shortcuts = array('in', 'pdh', 'user', 'config', 'time');
-
 		public function __construct() {
 		}
 		
