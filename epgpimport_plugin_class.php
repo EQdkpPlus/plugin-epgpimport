@@ -25,6 +25,8 @@ class epgpimport extends plugin_generic {
 	public $vstatus = 'Alpha';
 	public $version = '0.2.0';
 	
+	protected static $apiLevel = 20;
+	
 	public function __construct() {
 		parent::__construct();
 
