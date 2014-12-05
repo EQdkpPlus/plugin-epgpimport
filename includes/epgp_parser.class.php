@@ -27,7 +27,6 @@ if(!class_exists('epgp_parser')) {
 		}
 		
 		public function parse($strLog, $intEventID, $intItempoolID){
-			
 			if ($objLog = json_decode($strLog)){
 				$strTime = $this->time->date("Y-m-d H:i", intval($objLog->timestamp));
 				$intTime = intval($objLog->timestamp);
@@ -45,18 +44,19 @@ if(!class_exists('epgp_parser')) {
 				$arrItemMembernameList = array();
 				$arrItemMemberList = array();
 				$arrItemList = array();
+				//$objLootItem: 0:timestamp, 1:Charname, 2:item:113834:0:0:0:0:0:0:0:100:0:3:0
 				foreach($objLog->loot as $objLootItem){
 					//Try to check if item was imported, but how? When editing the raid, the item date will be the one from the raid
 					//Get all raids between first item and now, and try to find the item with same name, value and buyer
 					if ($blnRaidItemList === false){
-						$intTmpTime = $objLootItem[0];
+						$intTmpTime = (int)$objLootItem[0];
 						$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTmpTime, 9999999999));
 						foreach($arrRaidList as $raidid){
 							$arrRaidItems = $this->pdh->get('item', 'itemsofraid', array($raidid));
 							foreach($arrRaidItems as $itemid){
 								$strBuyerName = $this->pdh->get('item', 'buyer_name', array($itemid));
 								$arrItemMembernameList[$strBuyerName][] = array(
-									'gameid'	=> (int)$this->pdh->get('item', 'game_itemid', array($itemid)),
+									'gameid'	=> $this->pdh->get('item', 'game_itemid', array($itemid)),
 									'value'		=> (float)$this->pdh->get('item', 'value', array($itemid)),
 								);
 							}
@@ -65,13 +65,16 @@ if(!class_exists('epgp_parser')) {
 					}
 
 					$strBuyerName = $objLootItem[1];
+					
+					$strGameID = (is_numeric((string)$objLootItem[2])) ? intval($objLootItem[2]) : str_replace('item:', '', (string)$objLootItem[2]);
+					$floatValue = (float)$objLootItem[3];
+					
 					if (isset($arrItemMembernameList[$strBuyerName])){
 						$blnNotThere = true;
-						foreach($arrItemMembernameList[$strBuyerName] as $value){
-							$intGameID = intval($objLootItem[2]);
-							$floatValue = (float)$objLootItem[3];
 
-							if ($intGameID == $value['gameid'] && $floatValue == $value['value']){
+						foreach($arrItemMembernameList[$strBuyerName] as $value){
+
+							if ($strGameID == $value['gameid'] && $floatValue == $value['value']){
 								$blnNotThere = false;
 								break;
 							}
@@ -79,18 +82,16 @@ if(!class_exists('epgp_parser')) {
 
 						if ($blnNotThere){
 							$arrItemList[] = array(
-								'gameid' => intval($objLootItem[2]),
-								'value'	 => (float)$objLootItem[3],
+								'gameid' => $strGameID,
+								'value'	 => $floatValue,
 								'buyer'	 => $strBuyerName
 							);
 							$arrItemMemberList[$strBuyerName] += $floatValue; 
 						}
 						
 					} else {
-						$intGameID = intval($objLootItem[2]);
-						$floatValue = (float)$objLootItem[3];
 						$arrItemList[] = array(
-							'gameid' => $intGameID,
+							'gameid' => $strGameID,
 							'value'	 => $floatValue,
 							'buyer'	 => $strBuyerName
 						);
