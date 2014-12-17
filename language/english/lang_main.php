@@ -1,6 +1,6 @@
 <?php
 /*	Project:	EQdkp-Plus
- *	Package:	EPGPimport Plugin
+ *	Package:	EQdkp-Plus Language File
  *	Link:		http://eqdkp-plus.eu
  *
  *	Copyright (C) 2006-2015 EQdkp-Plus Developer Team
@@ -19,17 +19,27 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-	$lang = array(
-		'epgpimport' => 'EPGP-Import',
-		'epgpimport_import' => 'Import EPGP-Log',
-		'epgpimport_short_desc' => 'EPGP-Importer',
-		'epgpimport_long_desc' => 'Import your EPGP-Logs from the ingame-Addon',
-		'epgpimport_error_nolog' => 'No EPGP-Log given',
-		'epgpimport_error_wrongformat' => 'EPGP-Log could not be imported, maybe it is damaged, has a wrong format or a newer one has already been imported.',
-		'epgpimport_layoutwarning' => 'You don\'t use an EPGP-Layout. This can cause uncorrectly imports. Please go to the <a href="'.registry::get_const('root_path').'admin/manage_pagelayouts.php'.registry::get_const('SID').'">Pagelayout-Management</a> and select an EPGP-Layout.',
-		'epgpimport_success' => 'EPGP-Log successfully imported.',
-		'epgpimport_error_more_mdkp4event' => 'EPGP-Log could not be imported, because the selected event belongs to more than one MultiDKP-Pool.',
-	);
+ 
+if (!defined('EQDKP_INC')) {
+	die('You cannot access this file directly.');
+}
+
+//Language: English	
+//Created by EQdkp Plus Translation Tool on  2014-12-17 21:28
+//File: plugins/epgpimport/language/english/lang_main.php
+//Source-Language: german
+
+$lang = array( 
+	"epgpimport" => 'EPGP-Import',
+	"epgpimport_import" => 'Import EPGP-Log',
+	"epgpimport_short_desc" => 'EPGP-Importer',
+	"epgpimport_long_desc" => 'Import your EPGP-Logs from the ingame-Addon',
+	"epgpimport_error_nolog" => 'No EPGP-Log given',
+	"epgpimport_error_wrongformat" => 'EPGP-Log could not be imported, maybe it is damaged, has a wrong format or a newer one has already been imported.',
+	"epgpimport_layoutwarning" => 'You don\'t use an EPGP-Layout. This can cause uncorrectly imports. Please go to the <a href="'.registry::get_const('root_path').'.'.registry::get_const('root_path').'admin/manage_pagelayouts.php'.registry::get_const('SID').'">Pagelayout-Management</a> and select an EPGP-Layout.',
+	"epgpimport_success" => 'EPGP-Log successfully imported.',
+	"epgpimport_error_more_mdkp4event" => 'EPGP-Log could not be imported, because the selected event belongs to more than one MultiDKP-Pool.',
 	
+);
 
 ?>
