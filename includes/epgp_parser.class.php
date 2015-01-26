@@ -107,12 +107,15 @@ if(!class_exists('epgp_parser')) {
 				$arrMember = array();
 				$arrAdjustment = array();
 				foreach($objLog->roster as $objRosterItem){
-					$strMembername = sanitize($objRosterItem[0]);
+					$arrMembername = explode("-", $objRosterItem[0]);
+					$strMembername = trim($arrMembername[0]);
+					$strServername = (isset($arrMembername[1]) && strlen($arrMembername[1])) ? trim($arrMembername[1]) : $this->config->get('servername'); 
+					
 					$floatEP = (float)$objRosterItem[1];
 					$floatGP = (float)$objRosterItem[2];
 										
 					//Get MemberID, if none, create member
-					$intMemberID = $this->pdh->get('member', 'id', array($strMembername));
+					$intMemberID = $this->pdh->get('member', 'id', array($strMembername, array('servername' => $strServername)));
 					if (!$intMemberID){
 						//create new Member
 						$data = array(
@@ -174,7 +177,12 @@ if(!class_exists('epgp_parser')) {
 					//Add Items
 					foreach ($arrItemList as $item){
 						if ($item['value'] == 0) continue;
-						$intMemberID = $this->pdh->get('member', 'id', array($item['buyer']));
+						
+						$arrMembername = explode("-", $item['buyer']);
+						$strBuyerName = trim($arrMembername[0]);
+						$strBuyerServername = (isset($arrMembername[1]) && strlen($arrMembername[1])) ? trim($arrMembername[1]) : $this->config->get('servername');
+						
+						$intMemberID = $this->pdh->get('member', 'id', array($strBuyerName, array('servername' => $strBuyerServername)));
 						if ($intMemberID) {
 							$item_upd[] = $this->pdh->put('item', 'add_item', array('', $intMemberID, $raid_upd, $item['gameid'], $item['value'], $intItempoolID, $intTime));
 						} else {
