@@ -36,7 +36,7 @@ if(!class_exists('epgp_parser')) {
 				$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTime, 9999999999));
 				foreach($arrRaidList as $raidid){
 					$strNote = $this->pdh->get('raid', 'note', array($raidid));
-					if (strpos($strNote, "EPGP-Snapshot") ===0){
+					if (strpos($strNote, "EPGP-Snapshot") === 0){
 						return false;
 					}
 				}
@@ -44,7 +44,7 @@ if(!class_exists('epgp_parser')) {
 			
 				//Build itemList
 				$blnRaidItemList = false;
-				$arrItemMembernameList = array();
+				$arrItemMembernameServernameList = array();
 				$arrItemMemberList = array();
 				$arrItemList = array();
 				//$objLootItem: 0:timestamp, 1:Charname, 2:item:113834:0:0:0:0:0:0:0:100:0:3:0
@@ -57,10 +57,15 @@ if(!class_exists('epgp_parser')) {
 						foreach($arrRaidList as $raidid){
 							$arrRaidItems = $this->pdh->get('item', 'itemsofraid', array($raidid));
 							foreach($arrRaidItems as $itemid){
-								$strBuyerName = $this->pdh->get('item', 'buyer_name', array($itemid));
-								$arrItemMembernameList[$strBuyerName][] = array(
-									'gameid'	=> $this->pdh->get('item', 'game_itemid', array($itemid)),
-									'value'		=> (float)$this->pdh->get('item', 'value', array($itemid)),
+								$intBuyerID = $this->pdh->get('item', 'buyer', array($itemid));
+								$char_server	= $this->pdh->get('member', 'profile_field', array($intBuyerID, 'servername'));
+								$servername		= ($char_server != '') ? $char_server : $this->config->get('servername');
+								
+								$strBuyerName = $this->pdh->get('item', 'buyer_name', array($itemid)).'-'.unsanitize($servername);
+								
+								$arrItemMembernameServernameList[$strBuyerName][] = array(
+										'gameid'	=> $this->pdh->get('item', 'game_itemid', array($itemid)),
+										'value'		=> (float)$this->pdh->get('item', 'value', array($itemid)),
 								);
 							}
 						}
@@ -68,14 +73,16 @@ if(!class_exists('epgp_parser')) {
 					}
 
 					$strBuyerName = $objLootItem[1];
+					if(strpos($strBuyerName, '-') === false){
+						$strBuyerName = $strBuyerName.'-'.unsanitize($this->config->get('servername'));
+					}
 					
 					$strGameID = (is_numeric((string)$objLootItem[2])) ? intval($objLootItem[2]) : str_replace('item:', '', (string)$objLootItem[2]);
 					$floatValue = (float)$objLootItem[3];
 					
-					if (isset($arrItemMembernameList[$strBuyerName])){
+					if (isset($arrItemMembernameServernameList[$strBuyerName])){
 						$blnNotThere = true;
-
-						foreach($arrItemMembernameList[$strBuyerName] as $value){
+						foreach($arrItemMembernameServernameList[$strBuyerName] as $value){
 
 							if ($strGameID == $value['gameid'] && $floatValue == $value['value']){
 								$blnNotThere = false;
@@ -108,8 +115,11 @@ if(!class_exists('epgp_parser')) {
 				$arrAdjustment = array();
 				foreach($objLog->roster as $objRosterItem){
 					$arrMembername = explode("-", $objRosterItem[0]);
+					//TODO: servername
 					$strMembername = trim($arrMembername[0]);
 					$strServername = (isset($arrMembername[1]) && strlen($arrMembername[1])) ? trim($arrMembername[1]) : $this->config->get('servername'); 
+					
+					$strFullMembername = $strMembername.'-'.$strServername;
 					
 					$floatEP = (float)$objRosterItem[1];
 					$floatGP = (float)$objRosterItem[2];
@@ -124,6 +134,7 @@ if(!class_exists('epgp_parser')) {
 							'raceid'	=> 0,
 							'classid'	=> 0,
 							'rankid'	=> $this->pdh->get('rank', 'default', array()),
+							'servername'=> $strServername,
 						);
 						$intMemberID = $this->pdh->put('member', 'addorupdate_member', array(0, $data));
 						$this->pdh->process_hook_queue();
@@ -146,19 +157,19 @@ if(!class_exists('epgp_parser')) {
 							'reason'=> 'EP, Snapshot '.$strTime,
 						);
 					}
-					$floatGPItem = $floatGP - $floatCurrentGP - ((isset($arrItemMemberList[$strMembername])) ? $arrItemMemberList[$strMembername] : 0);
+					
+					$floatGPItem = $floatGP - $floatCurrentGP - ((isset($arrItemMemberList[$strFullMembername])) ? $arrItemMemberList[$strFullMembername] : 0);
 
 					//create dummy GP Item
 					$arrItem[] = array(
-						'value' => (float)$floatGPItem,
-						'name' => 'GP, Snapshot '.$strTime,
-						'gameid' => 0,
-						'member' => $intMemberID,
+						'value'		=> (float)$floatGPItem,
+						'name'		=> 'GP, Snapshot '.$strTime,
+						'gameid'	=> 0,
+						'member'	=> $intMemberID,
 					);
 
 					$arrMember[] = $intMemberID;
 				}
-				//d($arrAdjustment);
 
 				//Create raid with value 0
 				$raid_upd = $this->pdh->put('raid', 'add_raid', array($intTime, $arrMember, $intEventID, 'EPGP-Snapshot '.$strTime, 0));
@@ -186,19 +197,7 @@ if(!class_exists('epgp_parser')) {
 						if ($intMemberID) {
 							$item_upd[] = $this->pdh->put('item', 'add_item', array('', $intMemberID, $raid_upd, $item['gameid'], $item['value'], $intItempoolID, $intTime));
 						} else {
-							/*
-							//create new Member
-							$data = array(
-								'name' 		=> $item['buyer'],
-								'lvl' 		=> 0,
-								'raceid'	=> 0,
-								'classid'	=> 0,
-								'rankid'	=> $this->pdh->get('rank', 'default', array()),
-							);
-							$intMemberID = $this->pdh->put('member', 'addorupdate_member', array(0, $data));
-							$this->pdh->process_hook_queue();
-							if ($intMemberID) $item_upd[] = $this->pdh->put('item', 'add_item', array('', $intMemberID, $raid_upd, $item['gameid'], $item['value'], $intItempoolID, $intTime));
-							*/
+
 						}
 					}
 					
