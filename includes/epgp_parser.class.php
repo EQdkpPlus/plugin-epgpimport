@@ -33,7 +33,7 @@ if(!class_exists('epgp_parser')) {
 			if ($objLog = json_decode($strLog)){
 				$strTime = $this->time->date("Y-m-d H:i", intval($objLog->timestamp));
 				$intTime = intval($objLog->timestamp);
-				$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTime, 9999999999));
+				$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTime, PHP_INT_MAX));
 				foreach($arrRaidList as $raidid){
 					$strNote = $this->pdh->get('raid', 'note', array($raidid));
 					if (strpos($strNote, "EPGP-Snapshot") === 0){
@@ -53,7 +53,7 @@ if(!class_exists('epgp_parser')) {
 					//Get all raids between first item and now, and try to find the item with same name, value and buyer
 					if ($blnRaidItemList === false){
 						$intTmpTime = (int)$objLootItem[0];
-						$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTmpTime, 9999999999));
+						$arrRaidList = $this->pdh->get('raid', 'raididsindateinterval', array($intTmpTime, PHP_INT_MAX));
 						foreach($arrRaidList as $raidid){
 							$arrRaidItems = $this->pdh->get('item', 'itemsofraid', array($raidid));
 							foreach($arrRaidItems as $itemid){
@@ -114,10 +114,16 @@ if(!class_exists('epgp_parser')) {
 				$arrMember = array();
 				$arrAdjustment = array();
 				foreach($objLog->roster as $objRosterItem){
-					$arrMembername = explode("-", $objRosterItem[0]);
-					//TODO: servername
-					$strMembername = trim($arrMembername[0]);
-					$strServername = (isset($arrMembername[1]) && strlen($arrMembername[1])) ? trim($arrMembername[1]) : $this->config->get('servername'); 
+					
+					list($membername, $servername) = explode('-', $objRosterItem[0]);
+					$servername = preg_replace_callback(
+							"/([^A-Z\'\"\-; ])([A-Z])/",
+							function($m) { return $m[1].' '.$m[2]; },
+							$servername
+					);
+					
+					$strMembername = trim($membername);
+					$strServername = (isset($servername) && strlen($servername)) ? trim($servername) : $this->config->get('servername'); 
 					
 					$strFullMembername = $strMembername.'-'.$strServername;
 					
