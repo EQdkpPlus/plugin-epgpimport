@@ -87,8 +87,8 @@ class epgp_import extends page_generic {
 		asort($itempools);
 		
 		$this->tpl->assign_vars(array(
-			'EVENTS'			=> new hdropdown('event', array('options' => $events)),
-			'ITEMPOOLS'			=> new hdropdown('itempool', array('options' => $itempools)),
+			'EVENTS'			=> (new hdropdown('event', array('options' => $events)))->output(),
+			'ITEMPOOLS'			=> (new hdropdown('itempool', array('options' => $itempools)))->output(),
 			'S_LAYOUT_WARNING'  => ($this->pdh->get_eqdkp_base_layout($this->config->get('eqdkp_layout')) != 'epgp') ? true : false,
 		));
 
