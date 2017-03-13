@@ -26,7 +26,7 @@ if ( !defined('EQDKP_INC') ) {
 class epgpimport extends plugin_generic {
 
 	public $vstatus = 'Alpha';
-	public $version = '0.2.4';
+	public $version = '0.2.5';
 	
 	protected static $apiLevel = 23;
 	
@@ -34,7 +34,7 @@ class epgpimport extends plugin_generic {
 		parent::__construct();
 
 		$this->add_dependency(array(
-			'plus_version' => '1.0',
+			'plus_version' => '2.3',
 			'games'	=> array('wow')
 		));
 
