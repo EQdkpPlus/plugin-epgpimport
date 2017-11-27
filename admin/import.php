@@ -66,6 +66,10 @@ class epgp_import extends page_generic {
 					'page_title'        => $this->user->lang('epgpimport_import'),
 					'template_path'     => $this->pm->get_data('epgpimport', 'template_path'),
 					'template_file'     => 'admin/finished.html',
+						'page_path'			=> [
+								['title'=>$this->user->lang('menu_admin_panel'), 'url'=>$this->root_path.'admin/'.$this->SID],
+								['title'=>$this->user->lang('epgpimport').': '.$this->user->lang('epgpimport_import'), 'url'=>' '],
+						],
 					'display'           => true,
 					)
 				);
@@ -96,6 +100,10 @@ class epgp_import extends page_generic {
 			'page_title'        => $this->user->lang('epgpimport_import'),
 			'template_path'     => $this->pm->get_data('epgpimport', 'template_path'),
 			'template_file'     => 'admin/insert.html',
+				'page_path'			=> [
+						['title'=>$this->user->lang('menu_admin_panel'), 'url'=>$this->root_path.'admin/'.$this->SID],
+						['title'=>$this->user->lang('epgpimport').': '.$this->user->lang('epgpimport_import'), 'url'=>' '],
+				],
 			'display'           => true,
 			)
 		);
