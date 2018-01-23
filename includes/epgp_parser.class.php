@@ -151,7 +151,7 @@ if(!class_exists('epgp_parser')) {
 						$arrMDKPools = $this->pdh->get('event', 'multidkppools', array($intEventID));
 						$intMultidkpID = $arrMDKPools[0];
 						$floatCurrentEP = $this->pdh->get('epgp', 'ep', array($intMemberID, $intMultidkpID, false, false));
-						$floatCurrentGP = $this->pdh->get('epgp', 'gp', array($intMemberID, $intMultidkpID, false, false));
+						$floatCurrentGP = $this->pdh->get('epgp', 'gpwithbp', array($intMemberID, $intMultidkpID, false, false));
 					}
 					
 					$floatAdjustement = $floatEP - $floatCurrentEP;
