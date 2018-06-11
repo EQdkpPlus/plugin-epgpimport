@@ -123,15 +123,17 @@ if(!class_exists('epgp_parser')) {
 					);
 					
 					$strMembername = trim($membername);
+
 					$strServername = (isset($servername) && strlen($servername)) ? trim($servername) : $this->config->get('servername'); 
 					
-					$strFullMembername = $strMembername.'-'.$strServername;
+					$strFullMembername = $strMembername.'-'.unsanitize($strServername);
 					
 					$floatEP = (float)$objRosterItem[1];
 					$floatGP = (float)$objRosterItem[2];
 										
 					//Get MemberID, if none, create member
-					$intMemberID = $this->pdh->get('member', 'id', array($strMembername, array('servername' => $strServername)));
+					$intMemberID = $this->pdh->get('member', 'id', array(sanitize($strMembername), array('servername' => sanitize($strServername))));
+					
 					if (!$intMemberID){
 						//create new Member
 						$data = array(
