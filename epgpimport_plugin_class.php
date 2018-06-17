@@ -26,7 +26,7 @@ if ( !defined('EQDKP_INC') ) {
 class epgpimport extends plugin_generic {
 
 	public $vstatus = 'Stable';
-	public $version = '0.2.7';
+	public $version = '0.2.8';
 	
 	protected static $apiLevel = 23;
 	
