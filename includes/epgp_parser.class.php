@@ -320,7 +320,7 @@ if(!class_exists('epgp_parser')) {
 							foreach($a as $adj){
 								$arrMembers[] = $adj['member'];
 							}
-							$adj_upd[] = $this->pdh->put('adjustment', 'add_adjustment', array($adj['value'], $adj['reason'], $arrMembers, $intEventID, $raid_upd, $intTime));
+							$adj_upd[] = $this->pdh->put('adjustment', 'add_adjustment', array($adj['value'], $adj['reason'], $arrMembers, $intEventID, $raid_upd, $this->time->time));
 						}
 						
 						foreach ($arrItem as $val => $a){
@@ -329,7 +329,7 @@ if(!class_exists('epgp_parser')) {
 							foreach($a as $item){
 								$arrMembers[] = $item['member'];
 							}
-							$item_upd[] = $this->pdh->put('item', 'add_item', array($item['name'], $arrMembers, $raid_upd, $item['gameid'], $item['value'], $intItempoolID, $intTime));
+							$item_upd[] = $this->pdh->put('item', 'add_item', array($item['name'], $arrMembers, $raid_upd, $item['gameid'], $item['value'], $intItempoolID, $this->time->time));
 						}
 												
 						$this->pdh->process_hook_queue();
