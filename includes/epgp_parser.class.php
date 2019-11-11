@@ -141,9 +141,9 @@ if(!class_exists('epgp_parser')) {
 						//create new Member
 						$data = array(
 							'name' 		=> $strMembername,
-							'lvl' 		=> 0,
-							'raceid'	=> 0,
-							'classid'	=> 0,
+							'level'		=> 0,
+							'race'		=> 0,
+							'class'		=> 0,
 							'rankid'	=> $this->pdh->get('rank', 'default', array()),
 							'servername'=> $strServername,
 						);
@@ -267,9 +267,9 @@ if(!class_exists('epgp_parser')) {
 							//create new Member
 							$data = array(
 									'name' 		=> $strMembername,
-									'lvl' 		=> 0,
-									'raceid'	=> 0,
-									'classid'	=> $intClassID,
+									'level'		=> 0,
+									'race'		=> 0,
+									'class'		=> $intClassID,
 									'rankid'	=> $this->pdh->get('rank', 'byname', array($strRankname)),
 									'servername'=> $strServername,
 							);
