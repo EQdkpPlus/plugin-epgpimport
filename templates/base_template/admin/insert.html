@@ -15,12 +15,13 @@
 			<dt><label>{L_event}</label></dt>
 			<dd>{EVENTS}</dd>
 		</dl>
+		<!-- IF not S_DKP_EASYMODE -->
 		<dl>
 			<dt><label>{L_itempool}</label></dt>
 			<dd>{ITEMPOOLS}</dd>
 		</dl>
-		
-		<textarea name="log" rows="20" id="log" style="width: 99%" class="post"></textarea>
+		<!-- ENDIF -->
+		<textarea name="log" rows="20" id="log" style="width: 99%" class="post" required></textarea>
 	</fieldset>
 	<button type="submit" name="insert"><i class="fa fa-check"></i>{L_submit}</button>
 	{CSRF_TOKEN}

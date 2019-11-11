@@ -3,9 +3,15 @@
 </div>
 
 <fieldset class="settings">
-	{L_epgpimport_success}
-	<ul>
-		<li><a href="{EQDKP_ROOT_PATH}admin/manage_raids.php{SID}&r={RAID_ID}&upd=true">{L_manraid_title}</a></li>
-		<li><a href="{EQDKP_ROOT_PATH}plugins/epgpimport/admin/import.php{SID}">{L_epgpimport_import}</a></li>
-	</ul>
+	
+	<table class="table fullwidth ">
+		<tr>
+			<th>{L_epgpimport_success}</th>
+		</tr>
+		<tr class="row1">
+			<td>{L_raid}: <a href="{EQDKP_ROOT_PATH}admin/manage_raids.php{SID}&r={RAID_ID}&upd=true">{L_manraid_title}</a></td>
+		</tr>
+	</table>
+	<button onclick="window.location='import.php{SID}'"><i class="fa fa-plus fa-lg"></i> {L_epgpimport_import}</button>
+	
 </fieldset>
